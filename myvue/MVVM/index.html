@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>MVVM</title>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-model="message.text">
+    <h1 v-text="name"></h1>
+    <p>{{name}}: {{message.text}}</p>
+  </div>
+  <script src="MVVM.js"></script>
+  <script src="Compile.js"></script>
+  <script>
+    var vm = new MVVM({
+      el: '#app',
+      data: {
+        name: 'ipeng6',
+        message: {
+          text: '哈哈哈'
+        }
+      }
+    })
+  </script>
+</body>
+</html>
