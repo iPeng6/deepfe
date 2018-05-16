@@ -16,18 +16,19 @@ class Observer {
   }
   defineReactive(obj, key, value) {
     let _this = this
+    var dep = new Dep()
     Object.defineProperty(obj, key, {
       configurable: true,
       enumerable: true,
       get() {
-        console.log('get: ', value)
+        Dep.target && dep.addSub(Dep.target)
         return value
       },
       set(newVal) {
         if(newVal !== value) {
           _this.observe(newVal)
           value = newVal
-          console.log('set: ', newVal, value)
+          dep.notify()
         }
       }
     })

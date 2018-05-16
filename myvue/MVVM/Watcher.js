@@ -6,7 +6,9 @@ class Watcher {
     this.value = this.get()
   }
   get() {
+    Dep.target = this;
     let value = this.getVal()
+    Dep.target = null
     return value
   }
   getVal() {

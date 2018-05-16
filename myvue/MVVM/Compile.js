@@ -59,21 +59,25 @@ let CompileUtil = {
   // {{name}} {{age}}
   textContent(node, vm, expr) {
 
-    expr.replace(/\{\{([^}]+)\}\}/g, (...args) => {
-      new Watcher(vm, args[1], (newVal) => {
+    let textContent = expr.replace(/\{\{([^}]+)\}\}/g, (...args) => {
+      let wt = new Watcher(vm, args[1], (newVal) => {
         this.updaterFn.textUpdater(node, this.getTextVal(vm, expr))
       })
+      return wt.value
     })
 
-    this.updaterFn.textUpdater(node, this.getTextVal(vm, expr))
+    this.updaterFn.textUpdater(node, textContent)
   },
   text(node, vm, expr) {
-    new Watcher(vm, expr, (newVal) => {
+    let wt = new Watcher(vm, expr, (newVal) => {
       this.updaterFn.textUpdater(node, newVal)
     })
-    this.updaterFn.textUpdater(node, this.getVal(vm, expr))
+    this.updaterFn.textUpdater(node, wt.value)
   },
   model(node, vm, expr) {
+    node.addEventListener('input', (e) => {
+      this.setVal(vm, expr, e.target.value)
+    })
     let wt = new Watcher(vm, expr, (newVal) => {
       this.updaterFn.valueUpdater(node, newVal)
     })
@@ -86,6 +90,16 @@ let CompileUtil = {
   },
   getVal(vm, expr) {
     return expr.split('.').reduce((prev, next) => prev[next], vm.$data)
+  },
+  setVal(vm, expr, value) {
+    expr = expr.split('.')
+    expr.reduce((prev, next, currentIndex) => {
+      console.log('ci => ', currentIndex)
+      if(currentIndex === expr.length -1) {
+        return prev[next] = value
+      }
+      return prev[next]
+    }, vm.$data)
   },
   updaterFn: {
     textUpdater(node, text) {
