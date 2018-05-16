@@ -10,6 +10,20 @@ class MVVM {
     if(this.$el) {
       new Observer(this.$data)
       new Compile(this.$el, this)
+      this.proxyData(this.$data)
     }
+  }
+
+  proxyData(data) {
+    Object.keys(data).forEach(key => {
+      Object.defineProperty(this, key, {
+        get() {
+          return data[key]
+        },
+        set(newVal) {
+          data[key] = newVal
+        }
+      })
+    })
   }
 }

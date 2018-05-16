@@ -94,7 +94,6 @@ let CompileUtil = {
   setVal(vm, expr, value) {
     expr = expr.split('.')
     expr.reduce((prev, next, currentIndex) => {
-      console.log('ci => ', currentIndex)
       if(currentIndex === expr.length -1) {
         return prev[next] = value
       }

@@ -1,7 +1,7 @@
 
 class Observer {
   constructor(data) {
-   this.observe(data)
+    this.observe(data)
   }
   observe(data) {
 
