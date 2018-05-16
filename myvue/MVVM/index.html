@@ -8,12 +8,14 @@
 </head>
 <body>
   <div id="app">
-    <input type="text" v-model="message.text">
+    <!-- <input type="text" v-model="message.text"> -->
     <h1 v-text="name"></h1>
-    <p>{{name}}: {{message.text}}</p>
+    <!-- <p>{{name}}: {{message.text}}</p> -->
   </div>
   <script src="MVVM.js"></script>
   <script src="Compile.js"></script>
+  <script src="Observer.js"></script>
+  <script src="Watcher.js"></script>
   <script>
     var vm = new MVVM({
       el: '#app',
