@@ -3,7 +3,7 @@ class Watcher {
     this.vm = vm
     this.expr = expr
     this.cb = cb
-    // this.value = this.get()
+    this.value = this.get()
   }
   get() {
     let value = this.getVal()

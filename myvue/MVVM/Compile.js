@@ -56,7 +56,7 @@ class Compile {
 }
 
 let CompileUtil = {
-
+  // {{name}} {{age}}
   textContent(node, vm, expr) {
 
     expr.replace(/\{\{([^}]+)\}\}/g, (...args) => {
@@ -74,10 +74,10 @@ let CompileUtil = {
     this.updaterFn.textUpdater(node, this.getVal(vm, expr))
   },
   model(node, vm, expr) {
-    new Watcher(vm, expr, (newVal) => {
+    let wt = new Watcher(vm, expr, (newVal) => {
       this.updaterFn.valueUpdater(node, newVal)
     })
-    this.updaterFn.valueUpdater(node, this.getVal(vm, expr))
+    this.updaterFn.valueUpdater(node, wt.value)
   },
   getTextVal(vm, expr) {
     return expr.replace(/\{\{([^}]+)\}\}/g, (...args) => {
