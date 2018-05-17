@@ -5,7 +5,7 @@ class Observer {
   }
   observe(data) {
 
-    if(!data || typeof data !== 'object') return
+    if(typeof data !== 'object') return
 
     Object.keys(data).forEach(key => {
       let value = data[key]
@@ -22,6 +22,7 @@ class Observer {
       enumerable: true,
       get() {
         dep.depend()
+        console.log(dep, Dep.target)
         return value
       },
       set(newVal) {

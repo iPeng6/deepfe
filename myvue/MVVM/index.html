@@ -8,11 +8,12 @@
 </head>
 <body>
   <div id="app">
-    <input type="text" v-model="message.text">
-    <h1 v-text="name"></h1>
-    <p>{{name}}: {{message.text}}</p>
-    <button v-click="add">{{num}}</button>
-    <p>{{age}}</p>
+    <input type="text" v-model="name"> <button v-click="add">{{num}}</button>
+    <p>
+      <span v-text="name"></span>
+      <span>{{age}}</span>
+    </p>
+
   </div>
   <script src="MVVM.js"></script>
   <script src="Compile.js"></script>
@@ -26,20 +27,19 @@
         return {
           name: 'ipeng6',
           message: {
-            text: '哈哈哈'
+            text: ''
           },
           num: 0
         }
       },
       computed: {
         age() {
-          return this.name +' age is' + this.num
+          return ' age is' + this.num + ' ' + this.message.text
         }
       },
       watch: {
-        'message.text': function(newVal, oldVal) {
-          console.log('watch => ',this,this.num)
-          this.num++
+        'num': function(newVal, oldVal) {
+          this.message.text = '哈'.repeat(newVal)
         }
       },
       methods: {

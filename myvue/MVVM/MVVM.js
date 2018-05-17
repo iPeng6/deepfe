@@ -1,6 +1,9 @@
 /*
 挂载数据
-编译
+数据劫持 每个属性都创建依赖收集器dep，被get请求时登记依赖添加订阅，被set时通知依赖的watcher
+将计算属性转成watcher
+将watch转成watcher
+模板编译在需要的地方创建watcher
 */
 class MVVM {
   constructor(opt) {
