@@ -20,6 +20,7 @@ class MVVM {
       this.proxyData(this.$data)
 
       this.initComputed(this, this.$computed)
+      this.initWatch(this, opt.watch)
 
       new Compile(this.$el, this)
     }
@@ -44,6 +45,14 @@ class MVVM {
         set: setter
       })
     }
+  }
+  initWatch(vm, watch) {
+
+    for(const key in watch) {
+      const handler = watch[key]
+      new Watcher(vm, key, handler)
+    }
+
   }
   proxyData(data) {
     Object.keys(data).forEach(key => {

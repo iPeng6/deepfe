@@ -36,6 +36,12 @@
           return this.name +' age is' + this.num
         }
       },
+      watch: {
+        'message.text': function(newVal, oldVal) {
+          console.log('watch => ',this,this.num)
+          this.num++
+        }
+      },
       methods: {
         add() {
           this.num++

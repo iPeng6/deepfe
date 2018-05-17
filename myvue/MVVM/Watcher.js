@@ -40,9 +40,10 @@ class Watcher {
     }else {
       newValue = this.getVal()
     }
-
-    if(newValue !== this.value) {
-      this.cb(newValue)
+    const oldValue = this.value
+    if(newValue !== oldValue) {
+      console.log(this.vm)
+      this.cb.call(this.vm, newValue, oldValue)
     }
   }
   depend() {
