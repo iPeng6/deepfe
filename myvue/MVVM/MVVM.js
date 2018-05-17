@@ -25,14 +25,22 @@ class MVVM {
     }
   }
   initComputed(vm, computed) {
-
+    const watchers = vm._computedWatchers = Object.create(null)
     for(const key in computed) {
       const userDef = computed[key]
       const getter = typeof userDef === 'function' ? userDef : userDef.get
       const setter = typeof userDef === 'function' ?  noop : (userDef.set || noop)
 
+      watchers[key] = new Watcher(vm, getter, noop, {computed: true})
+
       Object.defineProperty(vm, key, {
-        get: getter,
+        get: () => {
+          const watcher = vm._computedWatchers[key]
+          if(watcher) {
+            watcher.depend()
+            return watcher.evaluate()
+          }
+        },
         set: setter
       })
     }

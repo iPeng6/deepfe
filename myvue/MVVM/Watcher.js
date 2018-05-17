@@ -1,14 +1,28 @@
 class Watcher {
-  constructor(vm, expr, cb) {
+  constructor(vm, expr, cb, opt) {
     this.vm = vm
     this.expr = expr
     this.cb = cb
 
-    this.value = this.get()
+    if(opt) {
+      this.computed = opt.computed
+    }
+
+    if(this.computed) {
+      this.value = undefined
+      this.dep = new Dep()
+    }else {
+      this.value = this.get()
+    }
   }
   get() {
     Dep.target = this;
-    let value = this.getVal()
+    let value
+    if(this.computed) {
+      value = this.expr.call(this.vm)
+    }else {
+      value = this.getVal()
+    }
     Dep.target = null
     return value
   }
@@ -20,9 +34,24 @@ class Watcher {
     return this.expr.split('.').reduce((prev, next) => prev[next], this.vm)
   }
   update() {
-    let newValue = this.getVal()
+    let newValue
+    if(this.computed) {
+      this.dep.notify()
+    }else {
+      newValue = this.getVal()
+    }
+
     if(newValue !== this.value) {
       this.cb(newValue)
     }
+  }
+  depend() {
+    if(this.dep && Dep.target) {
+      this.dep.depend()
+    }
+  }
+  evaluate() {
+    this.value = this.get()
+    return this.value
   }
 }
