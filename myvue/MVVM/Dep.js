@@ -13,3 +13,5 @@ class Dep {
     this.subs.forEach(wt => wt.update())
   }
 }
+
+Dep.target = null

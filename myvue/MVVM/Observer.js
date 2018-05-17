@@ -16,7 +16,7 @@ class Observer {
   }
   defineReactive(obj, key, value) {
     let _this = this
-    var dep = new Dep()
+    const dep = new Dep()
     Object.defineProperty(obj, key, {
       configurable: true,
       enumerable: true,

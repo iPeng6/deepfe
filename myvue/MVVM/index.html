@@ -11,6 +11,8 @@
     <input type="text" v-model="message.text">
     <h1 v-text="name"></h1>
     <p>{{name}}: {{message.text}}</p>
+    <button v-click="add">{{num}}</button>
+    <p>{{age}}</p>
   </div>
   <script src="MVVM.js"></script>
   <script src="Compile.js"></script>
@@ -20,10 +22,23 @@
   <script>
     var vm = new MVVM({
       el: '#app',
-      data: {
-        name: 'ipeng6',
-        message: {
-          text: '哈哈哈'
+      data(){
+        return {
+          name: 'ipeng6',
+          message: {
+            text: '哈哈哈'
+          },
+          num: 0
+        }
+      },
+      computed: {
+        age() {
+          return this.name +' age is' + this.num
+        }
+      },
+      methods: {
+        add() {
+          this.num++
         }
       }
     })

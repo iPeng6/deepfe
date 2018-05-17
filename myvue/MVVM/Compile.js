@@ -42,7 +42,8 @@ class Compile {
     Array.from(attrs).forEach(attr => {
       if(attr.name.startsWith('v-')) {
         let expr = attr.value
-        CompileUtil[attr.name.slice(2)](node, this.vm, expr)
+        let directive = attr.name.slice(2)
+        CompileUtil[directive] && CompileUtil[directive](node, this.vm, expr)
       }
     })
   }
@@ -60,6 +61,7 @@ let CompileUtil = {
   textContent(node, vm, expr) {
 
     let textContent = expr.replace(/\{\{([^}]+)\}\}/g, (...args) => {
+
       let wt = new Watcher(vm, args[1], (newVal) => {
         this.updaterFn.textUpdater(node, this.getTextVal(vm, expr))
       })
@@ -83,13 +85,16 @@ let CompileUtil = {
     })
     this.updaterFn.valueUpdater(node, wt.value)
   },
+  click(node, vm, expr) {
+    node.onclick = vm.$methods[expr].bind(vm)
+  },
   getTextVal(vm, expr) {
     return expr.replace(/\{\{([^}]+)\}\}/g, (...args) => {
       return this.getVal(vm, args[1])
     })
   },
   getVal(vm, expr) {
-    return expr.split('.').reduce((prev, next) => prev[next], vm.$data)
+    return expr.split('.').reduce((prev, next) => prev[next], vm)
   },
   setVal(vm, expr, value) {
     expr = expr.split('.')
