@@ -21,7 +21,7 @@ class Observer {
       configurable: true,
       enumerable: true,
       get() {
-        Dep.target && dep.addSub(Dep.target)
+        dep.depend()
         return value
       },
       set(newVal) {
